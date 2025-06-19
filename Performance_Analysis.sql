@@ -1,48 +1,48 @@
 -- W6.4 Performance Analysis Script
--- Author: [Your Full Name]
+-- Author: Blessing George
 -- Course: EC_IT143
--- Description: Poor performing queries, missing index recommendations, and performance improvement steps.
+-- Description: Poor performing queries with missing index suggestions and index creation.
 
 -- ======================================
--- First Query: Person.EmailAddress Table
--- Purpose: Generate missing index recommendation using a character column
+-- First Query: Person.Address
+-- Purpose: Trigger missing index using unindexed character field
 -- ======================================
 
--- Step 1: Query with unindexed column
+-- Step 1: Original query without index
 SELECT *
-FROM Person.EmailAddress
-WHERE EmailAddress = 'david0@adventure-works.com';
+FROM Person.Address
+WHERE City = 'Bothell';
 
--- Step 2: Missing index recommendation observed in execution plan
+-- Step 2: After reviewing Execution Plan, a missing index recommendation was provided
 
--- Step 3: Creating the recommended index
-CREATE NONCLUSTERED INDEX IX_EmailAddress_Email
-ON Person.EmailAddress (EmailAddress);
+-- Step 3: Create the missing index
+CREATE NONCLUSTERED INDEX IX_Person_Address_City
+ON Person.Address (City);
 
--- Step 4: Re-run query after creating index
+-- Step 4: Re-run the query after index creation
 SELECT *
-FROM Person.EmailAddress
-WHERE EmailAddress = 'david0@adventure-works.com';
-
+FROM Person.Address
+WHERE City = 'Bothell';
 
 -- ======================================
--- Second Query: Person.StateProvince Table
--- Purpose: Trigger another missing index suggestion
+-- Second Query: Person.Person
+-- Purpose: Trigger another missing index using LastName field
 -- ======================================
 
--- Step 1: Query with another unindexed character column
+-- Step 1: Original query without index
 SELECT *
-FROM Person.StateProvince
-WHERE Name = 'California';
+FROM Person.Person
+WHERE LastName = 'Smith';
 
--- Step 2: Missing index recommendation observed in execution plan
+-- Step 2: Execution Plan provided a missing index recommendation
 
--- Step 3: Creating the recommended index
-CREATE NONCLUSTERED INDEX IX_StateProvince_Name
-ON Person.StateProvince (Name);
+-- Step 3: Create the missing index
+CREATE NONCLUSTERED INDEX IX_Person_Person_LastName
+ON Person.Person (LastName);
 
--- Step 4: Re-run query after creating index
+-- Step 4: Re-run the query after index creation
 SELECT *
-FROM Person.StateProvince
-WHERE Name = 'California';
+FROM Person.Person
+WHERE LastName = 'Smith';
+
 
